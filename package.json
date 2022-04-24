@@ -1,0 +1,25 @@
+{
+  "name": "volcanicactivityapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider webpack --output-path ./public",
+    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server  --content-base  ./public --output-path ./public --hot"
+  },
+  "author": "Rafał Szatkiewicz",
+  "license": "ISC",
+  "devDependencies": {
+    "convert-csv-to-json": "^1.3.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "dependencies": {
+    "@deck.gl/aggregation-layers": "^8.7.5",
+    "@deck.gl/core": "^8.7.5",
+    "@deck.gl/layers": "^8.7.5",
+    "@deck.gl/mapbox": "^8.7.5",
+    "mapbox-gl": "^2.8.1"
+  }
+}
