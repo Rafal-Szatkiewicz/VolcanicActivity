@@ -1,4 +1,4 @@
-//package.json webpack server
+//package.json webpack server (put inside package.json if needed)
 /*"scripts": {
     "start": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server  --content-base  ./public --output-path ./public --hot"
   },
