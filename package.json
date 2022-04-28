@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider webpack --output-path ./public",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack --mode production",
     "start": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server  --content-base  ./public --output-path ./public --hot"
   },
   "author": "Rafał Szatkiewicz",
@@ -15,10 +15,10 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "@deck.gl/aggregation-layers": "^8.7.5",
+    "@deck.gl/aggregation-layers": "^8.7.8",
     "@deck.gl/core": "^8.7.5",
-    "@deck.gl/layers": "^8.7.5",
-    "@deck.gl/mapbox": "^8.7.5",
+    "@deck.gl/layers": "^8.7.8",
+    "@deck.gl/mapbox": "^8.7.8",
     "express": "^4.18.0",
     "mapbox-gl": "^2.8.1"
   },

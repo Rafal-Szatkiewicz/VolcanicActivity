@@ -1,7 +1,13 @@
+//package.json webpack server
+/*"scripts": {
+    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server  --content-base  ./public --output-path ./public --hot"
+  },
+*/
+
 import * as mapboxgl from 'mapbox-gl';
 import {MapboxLayer} from '@deck.gl/mapbox';
 import {ScatterplotLayer} from '@deck.gl/layers';
-import {IconLayer} from '@deck.gl/layers';
+//import {IconLayer} from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 
