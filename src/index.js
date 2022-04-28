@@ -12,7 +12,7 @@ import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicmFmaW96MCIsImEiOiJjbDJpdzY5ZWUwazVrM2NxNjYxemk5Mzd5In0.dJPoriJRgmdBP3XEtuSRqw';
+mapboxgl.accessToken = 'pk.eyJ1IjoicmFmaW96MCIsImEiOiJjbDJqOWVxNnYwMWQ5M29wa2FuZWJ3NG4zIn0.ocVrhgHM9MrABOj9isMg-A';
 const eruptions = './eruptions.json';
 
 //let test1 = 2;
