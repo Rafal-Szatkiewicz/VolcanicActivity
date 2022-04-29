@@ -48,6 +48,10 @@ const scatterplot = new MapboxLayer
           el.style.top = 0;
           el.style.opacity = 0.0;
         }
+    },
+    onClick: ({object, x, y}) => 
+    {
+      window.open(`https://www.gunviolencearchive.org/incident`)
     }
 });
 

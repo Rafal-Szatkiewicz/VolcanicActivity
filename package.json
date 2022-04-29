@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack --mode production",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack --mode development",
     "start": "SET NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server  --content-base  ./public --output-path ./public --hot"
   },
   "author": "Rafał Szatkiewicz",
