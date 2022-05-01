@@ -36,7 +36,7 @@ const scatterplot = new MapboxLayer
         if (object) 
         {
           const { volcano_name, eruption_number, number_of_eruptions } = object;
-          el.innerHTML = `<h1>ID ${eruption_number} Name: ${volcano_name} Eruptions: ${number_of_eruptions}</h1>`
+          el.innerHTML = `<h1>ID ${eruption_number} Name: ${volcano_name} Eruptions: ${number_of_eruptions}</h1>`;
           el.style.display = 'block';
           el.style.opacity = 0.9;
           el.style.left = x + 'px';
@@ -51,7 +51,12 @@ const scatterplot = new MapboxLayer
     },
     onClick: ({object, x, y}) => 
     {
-      window.open(`https://www.gunviolencearchive.org/incident`)
+      const det = document.getElementById('details');
+      const { volcano_name, eruption_number, number_of_eruptions } = object;
+
+      det.innerHTML - `${volcano_name}`;
+      //det.style.display = 'block';
+      //window.open(`https://www.gunviolencearchive.org/incident`)
     }
 });
 
