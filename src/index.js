@@ -27,7 +27,7 @@ const scatterplot = new MapboxLayer
     filled: true,
     radiusMinPixels: 2,
     radiusMaxPixels: 8,
-    getPosition: d => [parseFloat(d.longitude), parseFloat(d.latitude)],
+    getPosition: d => [parseInt(d.start_year) == 2018 ? parseFloat(d.longitude) : 0, parseInt(d.start_year) == 2018 ?  parseFloat(d.latitude) : 0],
     getFillColor: d =>  parseInt(d.number_of_eruptions) > 20 ? [350, 0, 40, 300] : [255, 160, 0, 150],
     pickable: true,
     onHover: ({object, x, y}) => 
