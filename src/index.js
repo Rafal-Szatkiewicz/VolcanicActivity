@@ -54,7 +54,6 @@ const scatterplot = new MapboxLayer
       const det = document.getElementById('details');
       const { volcano_name, eruption_number, number_of_eruptions } = object;
 
-      //det.innerHTML = ;
       det.innerHTML = `${volcano_name}`;
       //window.open(`https://www.gunviolencearchive.org/incident`)
     }
