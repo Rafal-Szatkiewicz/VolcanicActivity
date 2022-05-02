@@ -52,9 +52,10 @@ const scatterplot = new MapboxLayer
     onClick: ({object, x, y}) => 
     {
       const det = document.getElementById('details');
-      const { volcano_name, eruption_number, number_of_eruptions } = object;
+      const { volcano_name, eruption_number, number_of_eruptions, subregion } = object;
 
-      det.innerHTML = `${volcano_name}`;
+      det.innerHTML = `<h1>${volcano_name}</h1>`;
+      det.innerHTML = `<p><i>${subregion}</i></p>`;
       //window.open(`https://www.gunviolencearchive.org/incident`)
     }
 });

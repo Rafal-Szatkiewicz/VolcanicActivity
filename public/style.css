@@ -27,14 +27,16 @@ body
 }
 #details
 {
+    font-family: arial;
     position: absolute;
     z-index: 11;
     background-color: whitesmoke;
     width: 30%;
-    height: 97%;
+    height: 90.5%;
     left: 70%;
     top: 0;
     border-radius: 0 0 0 100px;
+    padding: 20px;
 }
 #buttons
 {
