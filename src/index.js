@@ -15,6 +15,9 @@ import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 mapboxgl.accessToken = 'pk.eyJ1IjoicmFmaW96MCIsImEiOiJjbDJqOWVxNnYwMWQ5M29wa2FuZWJ3NG4zIn0.ocVrhgHM9MrABOj9isMg-A';
 const eruptions = './volcanoEruptions.json';
 
+let minVal = 0;
+let maxVal = 0;
+
 //let test1 = 2;
 
 
@@ -28,7 +31,11 @@ const scatterplot = new MapboxLayer
     radiusMinPixels: 2,
     radiusMaxPixels: 8,
     getPosition: d => [parseFloat(d.longitude),parseFloat(d.latitude)],
-    getFillColor: d =>  parseInt(d.start_year) == 2018 ? (parseInt(d.number_of_eruptions) > 20 ? [350, 0, 40, 300] : [255, 160, 0, 150]) : [0,0,0,0],
+    getFillColor: d =>  parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? (parseInt(d.number_of_eruptions) > 20 ? [350, 0, 40, 300] : [255, 160, 0, 150]) : [0,0,0,0],
+    updateTriggers: 
+    {
+      getFillColor: [minVal, maxVal]
+    },
     pickable: true,
     onHover: ({object, x, y}) => 
     {
@@ -192,38 +199,64 @@ function hexToggle()
 const rangeInput = document.querySelectorAll(".range-input input"),
 priceInput = document.querySelectorAll(".price-input input"),
 range = document.querySelector(".slider .progress");
-let priceGap = 1000;
+let priceGap = 0;
 priceInput.forEach(input =>{
     input.addEventListener("input", e =>{
         let minPrice = parseInt(priceInput[0].value),
         maxPrice = parseInt(priceInput[1].value);
+
+        // refresh layer //
+        scatterplot.setProps({
+          updateTriggers: {
+            getFillColor: [minVal, maxVal]
+          }
+        });
+        // # //
         
         if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
             if(e.target.className === "input-min"){
                 rangeInput[0].value = minPrice;
-                range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
+                range.style.left = 100 - (((13365 - (minPrice + 11345)) / 1336) * 10) + "%";
             }else{
                 rangeInput[1].value = maxPrice;
-                range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+                range.style.right = ((13365 - (maxPrice + 11345)) / 1336) * 10 + "%";
             }
         }
     });
 });
 rangeInput.forEach(input =>{
     input.addEventListener("input", e =>{
-        let minVal = parseInt(rangeInput[0].value),
+        minVal = parseInt(rangeInput[0].value);
         maxVal = parseInt(rangeInput[1].value);
+
+        // refresh layer //
+        scatterplot.setProps({
+          updateTriggers: {
+            getFillColor: [minVal, maxVal]
+          }
+        });
+        // # //
         if((maxVal - minVal) < priceGap){
             if(e.target.className === "range-min"){
-                rangeInput[0].value = maxVal - priceGap
+                rangeInput[0].value = maxVal - priceGap;
             }else{
                 rangeInput[1].value = minVal + priceGap;
             }
         }else{
             priceInput[0].value = minVal;
             priceInput[1].value = maxVal;
-            range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
-            range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+            range.style.left = 100 - (((13365 - (minVal + 11345)) / 1336) * 10) + "%";
+            range.style.right = ((13365 - (maxVal + 11345)) / 1336) * 10 + "%";
         }
     });
 });
+document.body.onkeyup = function()
+{
+  console.log('pressed');
+
+  scatterplot.setProps({
+    updateTriggers: {
+      getFillColor: [minVal, maxVal]
+    }
+  });
+}
