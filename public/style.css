@@ -212,7 +212,7 @@ body
   height: 30px;
   border-radius: 100%;
   background-color: #ea3737;
-  transition: 1s;
+  transition: 0.5s;
   outline: 5px solid #fff !important;
   outline-offset: 25px !important;
 }
