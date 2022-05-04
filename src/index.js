@@ -52,17 +52,23 @@ const scatterplot = new MapboxLayer
         } 
         else 
         {
-          el.style.left = 0;
-          el.style.top = 0;
+          el.style.left = '-100%';
           el.style.opacity = 0.0;
         }
     },
     onClick: ({object, x, y}) => 
     {
-      const det = document.getElementById('details');
+      const cont = document.getElementById('content');
       const { volcano_name, eruption_number, number_of_eruptions, subregion } = object;
 
-      det.innerHTML = `<h1>${volcano_name}</h1><p><i>${subregion}</i></p>`;
+      cont.innerHTML = `<h1>${volcano_name}</h1><p><i>${subregion}</i></p>`;
+      if(!detailsToggle)
+      {
+        det.style.transform = 'translate(0,0)';
+        dotL.style.outline = '15px solid #fff';
+        dotL.style.outlineOffset = '0px';
+        detailsToggle = true;
+      }
       //window.open(`https://www.gunviolencearchive.org/incident`)
     }
 });
