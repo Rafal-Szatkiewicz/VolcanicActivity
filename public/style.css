@@ -204,7 +204,7 @@ body
   background-color: #ea3737;
   transition: 1s;
   outline: 10px solid #fff;
-  outline-offset: -15px;
+  outline-offset: -15.5px;
 }
 .dot:hover
 {
