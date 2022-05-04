@@ -30,21 +30,21 @@ const scatterplot = new MapboxLayer
     filled: true,
     radiusMinPixels: 2,
     radiusMaxPixels: 8,
-    getPosition: d => [parseFloat(d.longitude),parseFloat(d.latitude)],
-    getFillColor: d =>  parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? (parseInt(d.number_of_eruptions) > 20 ? [350, 0, 40, 300] : [255, 160, 0, 150]) : [0,0,0,0],
+    getPosition: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? [parseFloat(d.longitude), parseFloat(d.latitude)] : [0,0],
+    getFillColor: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? (parseInt(d.number_of_eruptions) > 20 ? [350, 0, 40, 300] : [255, 160, 0, 150]) : [0,0,0,0],
     updateTriggers: 
     {
+      getPosition: [minVal, maxVal],
       getFillColor: [minVal, maxVal]
     },
     pickable: true,
     onHover: ({object, x, y}) => 
     {
         const el = document.getElementById('tooltip');
-        if (object && object.getFillColor != [0,0,0,0]) 
+        if (object) 
         {
-          console.log(object.getFillColor);
-          const { volcano_name, eruption_number, number_of_eruptions } = object;
-          el.innerHTML = `<h1>ID ${eruption_number} Name: ${volcano_name} Eruptions: ${number_of_eruptions}</h1>`;
+          const { volcano_name, eruption_number, number_of_eruptions, start_year } = object;
+          el.innerHTML = `<h1>ID ${eruption_number} Name: ${volcano_name} Eruptions: ${number_of_eruptions}, Eruption year: ${start_year}</h1>`;
           el.style.display = 'block';
           el.style.opacity = 0.9;
           el.style.left = x + 'px';
@@ -215,6 +215,7 @@ priceInput.forEach(input =>{
         // refresh layer //
         scatterplot.setProps({
           updateTriggers: {
+            getPosition: [minVal, maxVal],
             getFillColor: [minVal, maxVal]
           }
         });
@@ -239,6 +240,7 @@ rangeInput.forEach(input =>{
         // refresh layer //
         scatterplot.setProps({
           updateTriggers: {
+            getPosition: [minVal, maxVal],
             getFillColor: [minVal, maxVal]
           }
         });
