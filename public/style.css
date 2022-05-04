@@ -136,6 +136,7 @@ body
     position: relative;
     background: #ddd;
     border-radius: 5px;
+    z-index: 2;
   }
   .slider .progress
   {
@@ -149,6 +150,7 @@ body
   .range-input
   {
     position: relative;
+    z-index: 3;
   }
   .range-input input
   {
