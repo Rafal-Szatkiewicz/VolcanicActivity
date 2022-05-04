@@ -40,8 +40,9 @@ const scatterplot = new MapboxLayer
     onHover: ({object, x, y}) => 
     {
         const el = document.getElementById('tooltip');
-        if (object) 
+        if (object && object.getFillColor != [0,0,0,0]) 
         {
+          console.log(object.getFillColor);
           const { volcano_name, eruption_number, number_of_eruptions } = object;
           el.innerHTML = `<h1>ID ${eruption_number} Name: ${volcano_name} Eruptions: ${number_of_eruptions}</h1>`;
           el.style.display = 'block';
@@ -61,8 +62,7 @@ const scatterplot = new MapboxLayer
       const det = document.getElementById('details');
       const { volcano_name, eruption_number, number_of_eruptions, subregion } = object;
 
-      det.innerHTML = `<h1>${volcano_name}</h1>`;
-      det.innerHTML = `<p><i>${subregion}</i></p>`;
+      det.innerHTML = `<h1>${volcano_name}</h1><p><i>${subregion}</i></p>`;
       //window.open(`https://www.gunviolencearchive.org/incident`)
     }
 });
@@ -251,6 +251,31 @@ rangeInput.forEach(input =>{
         }
     });
 });
+
+const wrapperM = document.getElementById("wrapperMove");
+const dotD = document.getElementById("dotDown");
+dotD.onclick = function() {slideDown()};
+let wrapperToggle = false;
+
+
+wrapperM.style.transform = 'translate(0,-90%)';
+function slideDown()
+{
+  if(wrapperToggle)
+  {
+    wrapperM.style.transform = 'translate(0,-90%)';
+    dotD.style.outline = '10px solid #fff';
+    dotD.style.outlineOffset = '-15px';
+    wrapperToggle = false;
+  }
+  else
+  {
+    wrapperM.style.transform = 'translate(0,0)';
+    dotD.style.outline = '15px solid #fff';
+    dotD.style.outlineOffset = '0px';
+    wrapperToggle = true;
+  }
+}
 
 //testing
 /*document.body.onkeyup = function()

@@ -15,32 +15,35 @@
             <input type="button" value="Heatmap" id="heatB">
             <input type="button" value="Hexagons" id="hexB">
         </div>
-        <div id="details">
-            <!--Range-->
-            <div class="wrapper">
-                <header>
-                  <h2>Set eruption date range</h2>
-                  <p>Use slider or enter "From" and "To" values</p>
-                </header>
-                <div class="price-input">
-                  <div class="field">
-                    <span>From</span>
-                    <input type="number" class="input-min" value="-11345">
-                  </div>
-                  <div class="separator">-</div>
-                  <div class="field">
-                    <span>To</span>
-                    <input type="number" class="input-max" value="2020">
-                  </div>
-                </div>
-                <div class="slider">
-                  <div class="progress"></div>
-                </div>
-                <div class="range-input">
-                  <input type="range" class="range-min" min="-11345" max="2020" value="-11345" step="1">
-                  <input type="range" class="range-max" min="-11345" max="2020" value="2020" step="1">
-                </div>
+        <!--Range-->
+        <div class="wrapper" id="wrapperMove">
+          <header>
+            <h2>Set eruption date range</h2>
+            <p>Use slider or enter "From" and "To" values</p>
+          </header>
+          <div class="price-input">
+            <div class="field">
+              <span>From</span>
+              <input type="number" class="input-min" value="-11345">
             </div>
+            <div class="separator"></div>
+            <div class="field">
+              <span>To</span>
+              <input type="number" class="input-max" value="2020">
+            </div>
+          </div>
+          <div class="slider">
+            <div class="progress"></div>
+          </div>
+          <div class="range-input">
+            <input type="range" class="range-min" min="-11345" max="2020" value="-11345" step="1">
+            <input type="range" class="range-max" min="-11345" max="2020" value="2020" step="1">
+          </div>
+          <div class="openMe">
+            <div class="dot" id="dotDown"></div>
+          </div>
+      </div>
+        <div id="details">
         </div>
         <div id="tooltip"></div>
     </body>
