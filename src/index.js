@@ -15,8 +15,8 @@ import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 mapboxgl.accessToken = 'pk.eyJ1IjoicmFmaW96MCIsImEiOiJjbDJqOWVxNnYwMWQ5M29wa2FuZWJ3NG4zIn0.ocVrhgHM9MrABOj9isMg-A';
 const eruptions = './volcanoEruptions.json';
 
-let minVal = 0;
-let maxVal = 0;
+let minVal = -11345;
+let maxVal = 2020;
 
 //let test1 = 2;
 
