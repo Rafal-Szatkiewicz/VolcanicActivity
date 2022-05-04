@@ -24,6 +24,7 @@ body
     -webkit-backdrop-filter: blur( 3.5px );
     border-radius: 10px;
     color: whitesmoke;
+    user-select: none;
 }
 #details
 {
@@ -37,6 +38,8 @@ body
     top: 0;
     border-radius: 0 0 0 100px;
     padding: 20px;
+    transform: translate(97%,0);
+    transition: 2s;
 }
 #buttons
 {
@@ -210,6 +213,19 @@ body
   border-radius: 100%;
   background-color: #37d2ea;
   transition: 1s;
-  outline: 5px solid #fff;
-  outline-offset: 25px;
+  outline: 5px solid #fff !important;
+  outline-offset: 25px !important;
+}
+#details .openMe
+{
+  background-color: whitesmoke;
+  height: 35px;
+  width: 100px;
+  border-radius: 20px 0 0 20px;
+  left: -20%;
+  top: 40%;
+}
+#details .dot
+{
+  margin: 3px 5px;
 }

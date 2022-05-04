@@ -254,11 +254,15 @@ rangeInput.forEach(input =>{
 
 const wrapperM = document.getElementById("wrapperMove");
 const dotD = document.getElementById("dotDown");
+const dotL = document.getElementById("dotLeft");
+const det = document.getElementById('details');
+
 dotD.onclick = function() {slideDown()};
+dotL.onclick = function() {slideLeft()};
 let wrapperToggle = false;
+let detailsToggle = false;
 
 
-wrapperM.style.transform = 'translate(0,-90%)';
 function slideDown()
 {
   if(wrapperToggle)
@@ -274,6 +278,23 @@ function slideDown()
     dotD.style.outline = '15px solid #fff';
     dotD.style.outlineOffset = '0px';
     wrapperToggle = true;
+  }
+}
+function slideLeft()
+{
+  if(detailsToggle)
+  {
+    det.style.transform = 'translate(97%,0)';
+    dotL.style.outline = '10px solid #fff';
+    dotL.style.outlineOffset = '-15px';
+    detailsToggle = false;
+  }
+  else
+  {
+    det.style.transform = 'translate(0,0)';
+    dotL.style.outline = '15px solid #fff';
+    dotL.style.outlineOffset = '0px';
+    detailsToggle = true;
   }
 }
 
