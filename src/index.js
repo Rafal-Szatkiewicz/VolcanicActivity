@@ -204,7 +204,8 @@ priceInput.forEach(input =>{
     input.addEventListener("input", e =>{
         let minPrice = parseInt(priceInput[0].value),
         maxPrice = parseInt(priceInput[1].value);
-
+        minVal = minPrice;
+        maxVal = maxPrice;
         // refresh layer //
         scatterplot.setProps({
           updateTriggers: {
@@ -250,13 +251,9 @@ rangeInput.forEach(input =>{
         }
     });
 });
-document.body.onkeyup = function()
+
+//testing
+/*document.body.onkeyup = function()
 {
   console.log('pressed');
-
-  scatterplot.setProps({
-    updateTriggers: {
-      getFillColor: [minVal, maxVal]
-    }
-  });
-}
+}*/
