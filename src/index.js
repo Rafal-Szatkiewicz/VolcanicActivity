@@ -134,8 +134,19 @@ let toggleScatter = true;
 let toggleHeat = false;
 let toggleHex = false;
 
+
+heatB.style.outline = '#fff 5px inset';
+heatB.style.backgroundColor = '#ea3737';
+heatB.style.color = '#fff';
+heatB.style.opacity = '50%';
 heatB.style.transform = 'translate(-45px,0)';
+
+hexB.style.outline = '#fff 5px inset';
+hexB.style.backgroundColor = '#ea3737';
+hexB.style.color = '#fff';
+hexB.style.opacity = '50%';
 hexB.style.transform = 'translate(-45px,0)';
+
 
 function scatterToggle()
 {
@@ -144,7 +155,9 @@ function scatterToggle()
     map.setLayoutProperty('scatter','visibility','none'); 
     toggleScatter = false;
 
-    scatterB.style.backgroundColor = '#ff4646a0';
+    scatterB.style.outline = '#fff 5px inset';
+    scatterB.style.backgroundColor = '#ea3737';
+    scatterB.style.color = '#fff';
     scatterB.style.opacity = '50%';
     scatterB.style.transform = 'translate(-45px,0)';
   }
@@ -153,7 +166,9 @@ function scatterToggle()
     map.setLayoutProperty('scatter','visibility','visible'); 
     toggleScatter = true;
 
-    scatterB.style.backgroundColor = '#ff4646';
+    scatterB.style.outline = '#ea3737 5px inset';
+    scatterB.style.backgroundColor = '#fff';
+    scatterB.style.color = '#ea3737';
     scatterB.style.opacity = '100%';
     scatterB.style.transform = 'translate(0,0)';
   }
@@ -165,7 +180,9 @@ function heatToggle()
     map.setLayoutProperty('heat','visibility','none'); 
     toggleHeat = false;
 
-    heatB.style.backgroundColor = '#ff4646a0';
+    heatB.style.outline = '#fff 5px inset';
+    heatB.style.backgroundColor = '#ea3737';
+    heatB.style.color = '#fff';
     heatB.style.opacity = '50%';
     heatB.style.transform = 'translate(-45px,0)';
   }
@@ -174,9 +191,11 @@ function heatToggle()
     map.setLayoutProperty('heat','visibility','visible'); 
     toggleHeat = true;
 
-    heatB.style.backgroundColor = '#ff4646';
+    heatB.style.outline = '#ea3737 5px inset';
+    heatB.style.backgroundColor = '#fff';
+    heatB.style.color = '#ea3737';
     heatB.style.opacity = '100%';
-    heatB.style.transform = 'translate(0,0)';
+    heatB.style.transform = 'translate(0,0)'
   }
 }
 function hexToggle()
@@ -188,7 +207,9 @@ function hexToggle()
     map.setLayoutProperty('hex','visibility','none'); 
     toggleHex = false;
 
-    hexB.style.backgroundColor = '#ff4646a0';
+    hexB.style.outline = '#fff 5px inset';
+    hexB.style.backgroundColor = '#ea3737';
+    hexB.style.color = '#fff';
     hexB.style.opacity = '50%';
     hexB.style.transform = 'translate(-45px,0)';
   }
@@ -197,9 +218,11 @@ function hexToggle()
     map.setLayoutProperty('hex','visibility','visible'); 
     toggleHex = true;
 
-    hexB.style.backgroundColor = '#ff4646';
+    hexB.style.outline = '#ea3737 5px inset';
+    hexB.style.backgroundColor = '#fff';
+    hexB.style.color = '#ea3737';
     hexB.style.opacity = '100%';
-    hexB.style.transform = 'translate(0,0)';
+    hexB.style.transform = 'translate(0,0)'
   }
 }
 

@@ -64,11 +64,13 @@ body
     border: 0;
     border-radius: 0 50px 50px 0;
     font-weight: bold;
-    color: white;
     font-size: 100%;
     padding: 5px;
     padding-right: 20px;
     margin-bottom: 5px;
+    background-color: #fff;
+    color: #ea3737;
+    outline: #ea3737 5px inset;
 }
 #scatterB
 {
