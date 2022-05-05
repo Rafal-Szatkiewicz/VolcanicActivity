@@ -81,12 +81,6 @@ body
     background-color: #ff4646a0;
     opacity: 50%;
 }
-#scatterB:hover, #heatB:hover, #hexB:hover
-{
-    opacity: 80%;
-    transition: 1s;
-}
-
 .wrapper
 {
   z-index: 2;
