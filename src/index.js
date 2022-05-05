@@ -15,6 +15,8 @@ import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 mapboxgl.accessToken = 'pk.eyJ1IjoicmFmaW96MCIsImEiOiJjbDJqOWVxNnYwMWQ5M29wa2FuZWJ3NG4zIn0.ocVrhgHM9MrABOj9isMg-A';
 const eruptions = './volcanoEruptions.json';
 
+const cont = document.getElementById('content');
+const volInfo = [];
 let minVal = -11345;
 let maxVal = 2020;
 
@@ -43,8 +45,8 @@ const scatterplot = new MapboxLayer
         const el = document.getElementById('tooltip');
         if (object) 
         {
-          const { volcano_name, eruption_number, number_of_eruptions, start_year } = object;
-          el.innerHTML = `<h1>ID ${eruption_number} Name: ${volcano_name} Eruptions: ${number_of_eruptions}, Eruption year: ${start_year}</h1>`;
+          const { volcano_name, subregion, number_of_eruptions } = object;
+          el.innerHTML = `<h1>Volcano name: </h1><p>${volcano_name}</p><h1>Subregion: </h1><p>${subregion}</p><h1>Number of eruptions: </h1><p>${number_of_eruptions}</p>`;
           el.style.display = 'block';
           el.style.opacity = 0.9;
           el.style.left = x + 'px';
@@ -58,10 +60,11 @@ const scatterplot = new MapboxLayer
     },
     onClick: ({object, x, y}) => 
     {
-      const cont = document.getElementById('content');
       const { volcano_name, eruption_number, number_of_eruptions, subregion } = object;
 
-      cont.innerHTML = `<h1>${volcano_name}</h1><p><i>${subregion}</i></p>`;
+      volInfo[0] = volcano_name;
+      volInfo[1] = subregion;
+      cont.innerHTML = `<h1>${volInfo[0]}</h1><p><i>${volInfo[1]}</i></p>`;
       if(!detailsToggle)
       {
         det.style.transform = 'translate(0,0)';
@@ -259,6 +262,7 @@ rangeInput.forEach(input =>{
         }
     });
 });
+//  # //
 
 const wrapperM = document.getElementById("wrapperMove");
 const dotD = document.getElementById("dotDown");
@@ -268,8 +272,7 @@ const det = document.getElementById('details');
 dotD.onclick = function() {slideDown()};
 dotL.onclick = function() {slideLeft()};
 let wrapperToggle = false;
-let detailsToggle = false;
-
+let detailsToggle = true;
 
 function slideDown()
 {
@@ -304,6 +307,33 @@ function slideLeft()
     dotL.style.outlineOffset = '0px';
     detailsToggle = true;
   }
+}
+
+const info = document.getElementById('volcanoInfo');
+const about = document.getElementById('about');
+info.onclick = function() {infoF()};
+about.onclick = function() {aboutF()};
+
+function infoF()
+{
+  if(volInfo[0] == undefined)
+  {
+    cont.innerHTML = `<h2>Click on a point on the map to get info</h2>`;
+  }
+  else
+  {
+    cont.innerHTML = `<h1>${volInfo[0]}</h1><p><i>${volInfo[1]}</i></p>`;
+  }
+}
+function aboutF()
+{
+  cont.innerHTML = `<h1>About</h1>
+  <p>The website was created to visualize volcanic activity around the world. The data contains information about eruptions from <span class="underlineClass">11345 BCE to 2020 CE</span></p>
+  <h2>Source</h2>
+  <ul>
+    <li><a target="_blank" href="https://www.kaggle.com/datasets/jessemostipak/volcano-eruptions?resource=download">Data</a></li>
+    <li><a target="_blank" href="https://www.mapbox.com">Map</a></li>
+  </ul>`;
 }
 
 //testing
