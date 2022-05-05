@@ -60,11 +60,38 @@ const scatterplot = new MapboxLayer
     },
     onClick: ({object, x, y}) => 
     {
-      const { volcano_name, eruption_number, number_of_eruptions, subregion } = object;
+      const { volcano_name, eruption_number, number_of_eruptions, subregion, country, elevation, primary_volcano_type, last_eruption_year, population_within_5_km, population_within_10_km, population_within_30_km, population_within_100_km, latitude, longitude } = object;
 
       volInfo[0] = volcano_name;
       volInfo[1] = subregion;
-      cont.innerHTML = `<h1>${volInfo[0]}</h1><p><i>${volInfo[1]}</i></p>`;
+      volInfo[2] = country;
+      volInfo[3] = elevation;
+      volInfo[4] = primary_volcano_type;
+      volInfo[5] = number_of_eruptions;
+      volInfo[6] = last_eruption_year;
+      volInfo[7] = population_within_5_km;
+      volInfo[8] = population_within_10_km;
+      volInfo[9] = population_within_30_km;
+      volInfo[10] = population_within_100_km;
+      volInfo[11] = latitude;
+      volInfo[12] = longitude;
+
+      cont.innerHTML = `<h1>${volInfo[0]}</h1>
+      <p><i>${volInfo[1]}</i></p>
+      <br>
+      <p><b>Country: </b>${volInfo[2]}</p>
+      <p><b>Elevation: </b>${volInfo[3]}</p>
+      <p><b>Volcano type: </b>${volInfo[4]}</p>
+      <p><b>Number of eruptions: </b>${volInfo[5]}</p>
+      <p><b>Last eruption <i>(year)</i>: </b>${volInfo[6]}</p>
+      <p><b>Latitude: </b>${volInfo[11]}</p>
+      <p><b>Longitude: </b>${volInfo[12]}</p>
+      <h2>Population</h2>
+      <p><b>within 5km: </b>${volInfo[7]}</p>
+      <p><b>within 10km: </b>${volInfo[8]}</p>
+      <p><b>within 30km: </b>${volInfo[9]}</p>
+      <p><b>within 100km: </b>${volInfo[10]}</p>`;
+
       if(!detailsToggle)
       {
         det.style.transform = 'translate(0,0)';
@@ -341,11 +368,25 @@ function infoF()
 {
   if(volInfo[0] == undefined)
   {
-    cont.innerHTML = `<h2>Click on a point on the map to get info</h2>`;
+    cont.innerHTML = `<h1>Click on a point on the map for info</h1>`;
   }
   else
   {
-    cont.innerHTML = `<h1>${volInfo[0]}</h1><p><i>${volInfo[1]}</i></p>`;
+    cont.innerHTML = `<h1>${volInfo[0]}</h1>
+    <p><i>${volInfo[1]}</i></p>
+    <br>
+    <p><b>Country: </b>${volInfo[2]}</p>
+    <p><b>Elevation: </b>${volInfo[3]}</p>
+    <p><b>Volcano type: </b>${volInfo[4]}</p>
+    <p><b>Number of eruptions: </b>${volInfo[5]}</p>
+    <p><b>Last eruption <i>(year)</i>: </b>${volInfo[6]}</p>
+    <p><b>Latitude: </b>${volInfo[11]}</p>
+    <p><b>Longitude: </b>${volInfo[12]}</p>
+    <h2>Population</h2>
+    <p><b>within 5km: </b>${volInfo[7]}</p>
+    <p><b>within 10km: </b>${volInfo[8]}</p>
+    <p><b>within 30km: </b>${volInfo[9]}</p>
+    <p><b>within 100km: </b>${volInfo[10]}</p>`;
   }
 }
 function aboutF()
