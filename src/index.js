@@ -328,12 +328,14 @@ function infoF()
 function aboutF()
 {
   cont.innerHTML = `<h1>About</h1>
-  <p>The website was created to visualize volcanic activity around the world. The data contains information about eruptions from <span class="underlineClass">11345 BCE to 2020 CE</span></p>
+  <p>The website was created to visualize volcanic activity around the world. The data contains information about volcanoes and eruptions from <span class="underlineClass">11345 BCE to 2020 CE</span></p>
   <h2>Source</h2>
   <ul>
     <li><a target="_blank" href="https://www.kaggle.com/datasets/jessemostipak/volcano-eruptions?resource=download">Data</a></li>
     <li><a target="_blank" href="https://www.mapbox.com">Map</a></li>
-  </ul>`;
+  </ul>
+  <br>
+  <h3>App created by: Rafał Szatkiewicz</h3>`;
 }
 
 //testing
