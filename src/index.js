@@ -14,14 +14,21 @@ import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmFmaW96MCIsImEiOiJjbDJqOWVxNnYwMWQ5M29wa2FuZWJ3NG4zIn0.ocVrhgHM9MrABOj9isMg-A';
 const eruptions = './volcanoEruptions.json';
+const eruptionsObj = require('../public/volcanoEruptions.json'); 
 
 const cont = document.getElementById('content');
 const volInfo = [];
 let minVal = -11345;
 let maxVal = 2020;
 
-//let test1 = 2;
+function getEruptions(volcano_name) {
+  return eruptionsObj.filter(
+      function(eruptionsObj){ return eruptionsObj.volcano_name == volcano_name }
+  );
+}
+let found = {};
 
+//let test1 = 2;
 
 const scatterplot = new MapboxLayer
 ({
@@ -60,7 +67,7 @@ const scatterplot = new MapboxLayer
     },
     onClick: ({object, x, y}) => 
     {
-      const { volcano_name, eruption_number, number_of_eruptions, subregion, country, elevation, primary_volcano_type, last_eruption_year, population_within_5_km, population_within_10_km, population_within_30_km, population_within_100_km, latitude, longitude } = object;
+      const { volcano_name, number_of_eruptions, subregion, country, elevation, primary_volcano_type, last_eruption_year, population_within_5_km, population_within_10_km, population_within_30_km, population_within_100_km, latitude, longitude } = object;
 
       volInfo[0] = volcano_name;
       volInfo[1] = subregion;
@@ -75,6 +82,12 @@ const scatterplot = new MapboxLayer
       volInfo[10] = population_within_100_km;
       volInfo[11] = latitude;
       volInfo[12] = longitude;
+
+      found = getEruptions(volInfo[0]);
+      /*for (x in found)
+      {
+        console.log(found[x].start_year);
+      }*/
 
       cont.innerHTML = `
       <div id="arrows"><p>scroll</p></div>
@@ -363,8 +376,10 @@ function slideLeft()
 
 const info = document.getElementById('volcanoInfo');
 const about = document.getElementById('about');
+const eruptionsTab = document.getElementById('eruptionsTab');
 info.onclick = function() {infoF()};
 about.onclick = function() {aboutF()};
+eruptionsTab.onclick = function() {eruptionsF()};
 
 function infoF()
 {
@@ -404,6 +419,24 @@ function aboutF()
   </ul>
   <br>
   <h3>App created by: Rafał Szatkiewicz</h3>`;
+}
+function eruptionsF()
+{
+  cont.innerHTML = `
+  <div id="arrows"><p>scroll</p></div>
+  <h1>Eruptions</h1>
+  <br>
+  <table>
+  <tr><th>Year</th><th>Vei</th></tr>
+  <div id='table'></div>
+  </table>`;
+
+  const table = document.getElementById('table');
+  
+  for (let x in found)
+  {
+    table.innerHTML = `<tr><th>${found[x].start_year}</th><th>${found[x].vei}</th></tr>`;
+  }
 }
 
 //testing
