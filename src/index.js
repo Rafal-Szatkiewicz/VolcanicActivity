@@ -76,7 +76,9 @@ const scatterplot = new MapboxLayer
       volInfo[11] = latitude;
       volInfo[12] = longitude;
 
-      cont.innerHTML = `<h1>${volInfo[0]}</h1>
+      cont.innerHTML = `
+      <div id="arrows"><p>scroll</p></div>
+      <h1>${volInfo[0]}</h1>
       <p><i>${volInfo[1]}</i></p>
       <br>
       <p><b>Country: </b>${volInfo[2]}</p>
@@ -372,7 +374,9 @@ function infoF()
   }
   else
   {
-    cont.innerHTML = `<h1>${volInfo[0]}</h1>
+    cont.innerHTML = `
+    <div id="arrows"><p>scroll</p></div>
+    <h1>${volInfo[0]}</h1>
     <p><i>${volInfo[1]}</i></p>
     <br>
     <p><b>Country: </b>${volInfo[2]}</p>

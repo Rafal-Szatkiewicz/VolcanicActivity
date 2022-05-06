@@ -290,3 +290,14 @@ a
   text-decoration: none;
   color: #ea3737;
 }
+#arrows
+{
+  position: fixed;
+  z-index: 3;
+  transform: rotate(-90deg);
+  right: 13px;
+  top: 37%;
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.564);
+  letter-spacing: 2px;
+}
