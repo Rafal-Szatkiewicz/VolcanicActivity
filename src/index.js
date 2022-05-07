@@ -10,6 +10,7 @@ import {ScatterplotLayer} from '@deck.gl/layers';
 //import {IconLayer} from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
+import heatmapLayer from '@deck.gl/aggregation-layers/dist/es5/heatmap-layer/heatmap-layer';
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmFmaW96MCIsImEiOiJjbDJqOWVxNnYwMWQ5M29wa2FuZWJ3NG4zIn0.ocVrhgHM9MrABOj9isMg-A';
@@ -28,6 +29,10 @@ function getEruptions(volcano_name) {
 }
 let found = {};
 
+let toggleScatter = true;
+let toggleHeat = false;
+let toggleHex = false;
+
 //let test1 = 2;
 
 const scatterplot = new MapboxLayer
@@ -39,11 +44,11 @@ const scatterplot = new MapboxLayer
     filled: true,
     radiusMinPixels: 2,
     radiusMaxPixels: 8,
-    getPosition: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? [parseFloat(d.longitude), parseFloat(d.latitude)] : [0,0],
+    getPosition: d => (parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal) && toggleScatter == true ? [parseFloat(d.longitude), parseFloat(d.latitude)] : [0,0],
     getFillColor: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? (parseInt(d.number_of_eruptions) > 20 ? [350, 0, 40, 300] : [255, 160, 0, 150]) : [0,0,0,0],
     updateTriggers: 
     {
-      getPosition: [minVal, maxVal],
+      getPosition: [minVal, maxVal, toggleScatter],
       getFillColor: [minVal, maxVal]
     },
     pickable: true,
@@ -123,9 +128,16 @@ const heatmap =  new MapboxLayer
   id: 'heat',
   type: HeatmapLayer,
   data: eruptions,
-  getPosition: d => [parseFloat(d.longitude), parseFloat(d.latitude)],
-  getWeight: d => parseInt(d.number_of_eruptions),
+  getPosition: d => (parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal) && toggleHeat == true ? [parseFloat(d.longitude), parseFloat(d.latitude)] : [0,0],
+  getWeight: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? parseInt(d.number_of_eruptions) : 0,
   radiusPixels: 50,
+  weightsTextureSize: 512,
+
+  updateTriggers: 
+    {
+      getPosition: [minVal,maxVal, toggleHeat],
+      getWeight: [minVal, maxVal]
+    },
 });
 
 const hexagon = new MapboxLayer
@@ -133,15 +145,23 @@ const hexagon = new MapboxLayer
   id: 'hex',
   type: HexagonLayer,
   data: eruptions,
-  getPosition: d => [parseFloat(d.longitude), parseFloat(d.latitude)],
-  getElevationWeight: d => parseInt(d.number_of_eruptions),
+  getPosition: d => (parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal) && toggleHex == true ? [parseFloat(d.longitude), parseFloat(d.latitude)] : [0,0],
+  getElevationWeight: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? parseInt(d.number_of_eruptions) : 0,
+  getColorWeight: d => (parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal) && toggleHex == true ? 1 : 0,
   elevationScale: 600*10,
   extruded: true,
   radius: 32000*2,         
   opacity: 0.6,        
   coverage: 0.8,
-  //lowerPercentile: 0,
-  antialias: true
+  lowerPercentile: 1,
+  antialias: true,
+
+  updateTriggers: 
+    {
+      getPosition: [minVal, maxVal,toggleHex],
+      getColorWeight: [minVal, maxVal],
+      getElevationWeight: [minVal, maxVal]
+    },
 });
 
 const map = new mapboxgl.Map
@@ -172,10 +192,6 @@ scatterB.onclick = function() {scatterToggle()};
 heatB.onclick = function() {heatToggle()};
 hexB.onclick = function() {hexToggle()};
 
-let toggleScatter = true;
-let toggleHeat = false;
-let toggleHex = false;
-
 
 heatB.style.outline = '#fff 5px inset';
 heatB.style.backgroundColor = '#ea3737';
@@ -202,6 +218,13 @@ function scatterToggle()
     scatterB.style.color = '#fff';
     scatterB.style.opacity = '50%';
     scatterB.style.transform = 'translate(-45px,0)';
+
+    scatterplot.setProps({
+      updateTriggers: {
+        getPosition: [minVal, maxVal, toggleScatter],
+        getFillColor: [minVal, maxVal]
+      }
+    });
   }
   else
   {
@@ -213,6 +236,13 @@ function scatterToggle()
     scatterB.style.color = '#ea3737';
     scatterB.style.opacity = '100%';
     scatterB.style.transform = 'translate(0,0)';
+
+    scatterplot.setProps({
+      updateTriggers: {
+        getPosition: [minVal, maxVal, toggleScatter],
+        getFillColor: [minVal, maxVal]
+      }
+    });
   }
 }
 function heatToggle()
@@ -227,6 +257,14 @@ function heatToggle()
     heatB.style.color = '#fff';
     heatB.style.opacity = '50%';
     heatB.style.transform = 'translate(-45px,0)';
+
+    heatmap.setProps({
+      updateTriggers: 
+    {
+      getPosition: [minVal,maxVal, toggleHeat],
+      getWeight: [minVal, maxVal]
+    },
+    });
   }
   else
   {
@@ -237,7 +275,15 @@ function heatToggle()
     heatB.style.backgroundColor = '#fff';
     heatB.style.color = '#ea3737';
     heatB.style.opacity = '100%';
-    heatB.style.transform = 'translate(0,0)'
+    heatB.style.transform = 'translate(0,0)';
+
+    heatmap.setProps({
+      updateTriggers: 
+    {
+      getPosition: [minVal,maxVal, toggleHeat],
+      getWeight: [minVal, maxVal]
+    },
+    });
   }
 }
 function hexToggle()
@@ -254,6 +300,15 @@ function hexToggle()
     hexB.style.color = '#fff';
     hexB.style.opacity = '50%';
     hexB.style.transform = 'translate(-45px,0)';
+
+    hexagon.setProps({
+      updateTriggers: 
+      {
+        getPosition: [minVal, maxVal,toggleHex],
+        getColorWeight: [minVal, maxVal],
+        getElevationWeight: [minVal, maxVal]
+      }
+    });
   }
   else
   {
@@ -264,7 +319,16 @@ function hexToggle()
     hexB.style.backgroundColor = '#fff';
     hexB.style.color = '#ea3737';
     hexB.style.opacity = '100%';
-    hexB.style.transform = 'translate(0,0)'
+    hexB.style.transform = 'translate(0,0)';
+
+    hexagon.setProps({
+      updateTriggers: 
+      {
+        getPosition: [minVal, maxVal,toggleHex],
+        getColorWeight: [minVal, maxVal],
+        getElevationWeight: [minVal, maxVal]
+      }
+    });
   }
 }
 
@@ -281,12 +345,36 @@ priceInput.forEach(input =>{
         minVal = minPrice;
         maxVal = maxPrice;
         // refresh layer //
-        scatterplot.setProps({
-          updateTriggers: {
-            getPosition: [minVal, maxVal],
-            getFillColor: [minVal, maxVal]
-          }
-        });
+        if(scatterToggle)
+        {
+          scatterplot.setProps({
+            updateTriggers: {
+              getPosition: [minVal, maxVal],
+              getFillColor: [minVal, maxVal]
+            }
+          });
+        }
+        if(heatToggle)
+        {
+          heatmap.setProps({
+            updateTriggers: 
+            {
+              getPosition: [minVal,maxVal, toggleHeat],
+              getWeight: [minVal, maxVal]
+            },
+          });
+        }
+        if(hexToggle)
+        {
+          hexagon.setProps({
+            updateTriggers: 
+            {
+              getPosition: [minVal, maxVal,toggleHex],
+              getColorWeight: [minVal, maxVal],
+              getElevationWeight: [minVal, maxVal]
+            }
+          });
+        }
         // # //
         
         if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
@@ -306,12 +394,36 @@ rangeInput.forEach(input =>{
         maxVal = parseInt(rangeInput[1].value);
 
         // refresh layer //
-        scatterplot.setProps({
-          updateTriggers: {
-            getPosition: [minVal, maxVal],
-            getFillColor: [minVal, maxVal]
-          }
-        });
+        if(scatterToggle)
+        {
+          scatterplot.setProps({
+            updateTriggers: {
+              getPosition: [minVal, maxVal],
+              getFillColor: [minVal, maxVal]
+            }
+          });
+        }
+        if(heatToggle)
+        {
+          heatmap.setProps({
+            updateTriggers: 
+            {
+              getPosition: [minVal,maxVal, toggleHeat],
+              getWeight: [minVal, maxVal]
+            },
+          });
+        }
+        if(hexToggle)
+        {
+          hexagon.setProps({
+            updateTriggers: 
+            {
+              getPosition: [minVal, maxVal,toggleHex],
+              getColorWeight: [minVal, maxVal],
+              getElevationWeight: [minVal, maxVal]
+            }
+          });
+        }
         // # //
         if((maxVal - minVal) < priceGap){
             if(e.target.className === "range-min"){
@@ -422,84 +534,93 @@ function aboutF()
 }
 function eruptionsF()
 {
-  cont.innerHTML = `
-  <div id="arrows"><p>scroll</p></div>
-  <h1>Eruptions</h1><br>`;
-
-  var tbl = document.createElement("table");
-  var tblBody = document.createElement("tbody");
-
-  // i = rows
-  for (var i = 0; i < found.length; i++) 
+  if(Object.keys(found).length === 0 && found.constructor === Object)
   {
-    // creates a table row
-    var row = document.createElement("tr");
+    cont.innerHTML = `<h1>Click on a point on the map for info</h1>`;
+  }
+  else
+  {
+    cont.innerHTML = `
+    <div id="arrows"><p>scroll</p></div>
+    <h1>Eruptions</h1><br>`;
 
-    // j = columns
-    for (var j = 0; j < 5; j++) 
+    var tbl = document.createElement("table");
+    var tblBody = document.createElement("tbody");
+
+    // i = rows
+    for (var i = 0; i < found.length; i++) 
     {
-      if(i==0)
+      // creates a table row
+      var row = document.createElement("tr");
+
+      // j = columns
+      for (var j = 0; j < 5; j++) 
       {
-        var cell = document.createElement("th");
-        if(j==0)
+        if(i==0)
         {
-          var cellText = document.createTextNode("Year");
-        }
-        else if(j==1)
-        {
-          var cellText = document.createTextNode("Category");
-        }
-        else if(j==2)
-        {
-          var cellText = document.createTextNode("Evidence method dating");
-        }
-        else if(j==3)
-        {
-          var cellText = document.createTextNode("Area of activity");
+          var cell = document.createElement("th");
+          if(j==0)
+          {
+            var cellText = document.createTextNode("Year");
+          }
+          else if(j==1)
+          {
+            var cellText = document.createTextNode("Category");
+          }
+          else if(j==2)
+          {
+            var cellText = document.createTextNode("Evidence method dating");
+          }
+          else if(j==3)
+          {
+            var cellText = document.createTextNode("Area of activity");
+          }
+          else
+          {
+            var cellText = document.createTextNode("Vei");
+          }
+          cell.appendChild(cellText);
+          row.appendChild(cell);
         }
         else
         {
-          var cellText = document.createTextNode("Vei");
+          var cell = document.createElement("td");
+          if(j==0)
+          {
+            var cellText = document.createTextNode(found[i].start_year);
+          }
+          else if(j==1)
+          {
+            var cellText = document.createTextNode(found[i].eruption_category);
+          }
+          else if(j==2)
+          {
+            var cellText = document.createTextNode(found[i].evidence_method_dating);
+          }
+          else if(j==3)
+          {
+            var cellText = document.createTextNode(found[i].area_of_activity);
+          }
+          else
+          {
+            var cellText = document.createTextNode(found[i].vei);
+          }
+          cell.appendChild(cellText);
+          row.appendChild(cell);
         }
-        cell.appendChild(cellText);
-        row.appendChild(cell);
       }
-      else
-      {
-        var cell = document.createElement("td");
-        if(j==0)
-        {
-          var cellText = document.createTextNode(found[i].start_year);
-        }
-        else if(j==1)
-        {
-          var cellText = document.createTextNode(found[i].eruption_category);
-        }
-        else if(j==2)
-        {
-          var cellText = document.createTextNode(found[i].evidence_method_dating);
-        }
-        else if(j==3)
-        {
-          var cellText = document.createTextNode(found[i].area_of_activity);
-        }
-        else
-        {
-          var cellText = document.createTextNode(found[i].vei);
-        }
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-      }
+
+      // add the row to the end of the table body
+      tblBody.appendChild(row);
     }
 
-    // add the row to the end of the table body
-    tblBody.appendChild(row);
+    // put the <tbody> in the <table>
+    tbl.appendChild(tblBody);
+
+    cont.appendChild(tbl);
   }
 
-  // put the <tbody> in the <table>
-  tbl.appendChild(tblBody);
-
-  cont.appendChild(tbl);
+  
 
 
   /*const table = document.getElementById('table');
