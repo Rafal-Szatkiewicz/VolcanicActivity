@@ -71,6 +71,7 @@ body
     background-color: #fff;
     color: #ea3737;
     outline: #ea3737 5px inset;
+    transition: 1s;
 }
 #scatterB
 {
