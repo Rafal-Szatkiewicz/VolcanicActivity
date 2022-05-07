@@ -268,7 +268,7 @@ header  span:hover
   margin-top: 20px;
   background-color: #fff;
   border-radius: 20px;
-  padding: 10px 20px 20px 20px;
+  padding: 10px 30px 20px 20px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 5px;
   word-spacing: 2px;
   line-height: 1.3;
@@ -276,6 +276,7 @@ header  span:hover
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  width: 90%;
 }
 #details #content::-webkit-scrollbar
 {
@@ -295,9 +296,29 @@ a
   position: fixed;
   z-index: 3;
   transform: rotate(-90deg);
-  right: 13px;
+  right: 10px;
   top: 37%;
   font-size: 15px;
   color: rgba(0, 0, 0, 0.564);
   letter-spacing: 2px;
+}
+table,td
+{
+  border-collapse: collapse;
+  border: black solid 3px;
+  text-align: center;
+}
+th
+{
+  color: #fff;
+  background-color: #d62a2a;
+}
+tr:hover
+{
+  background-color: #e76262;
+  transition: 0.2s;
+}
+td
+{
+  padding: 5px;
 }

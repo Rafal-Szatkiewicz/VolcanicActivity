@@ -424,19 +424,90 @@ function eruptionsF()
 {
   cont.innerHTML = `
   <div id="arrows"><p>scroll</p></div>
-  <h1>Eruptions</h1>
-  <br>
-  <table>
-  <tr><th>Year</th><th>Vei</th></tr>
-  <div id='table'></div>
-  </table>`;
+  <h1>Eruptions</h1><br>`;
 
-  const table = document.getElementById('table');
+  var tbl = document.createElement("table");
+  var tblBody = document.createElement("tbody");
+
+  // i = rows
+  for (var i = 0; i < found.length; i++) 
+  {
+    // creates a table row
+    var row = document.createElement("tr");
+
+    // j = columns
+    for (var j = 0; j < 5; j++) 
+    {
+      if(i==0)
+      {
+        var cell = document.createElement("th");
+        if(j==0)
+        {
+          var cellText = document.createTextNode("Year");
+        }
+        else if(j==1)
+        {
+          var cellText = document.createTextNode("Category");
+        }
+        else if(j==2)
+        {
+          var cellText = document.createTextNode("Evidence method dating");
+        }
+        else if(j==3)
+        {
+          var cellText = document.createTextNode("Area of activity");
+        }
+        else
+        {
+          var cellText = document.createTextNode("Vei");
+        }
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+      }
+      else
+      {
+        var cell = document.createElement("td");
+        if(j==0)
+        {
+          var cellText = document.createTextNode(found[i].start_year);
+        }
+        else if(j==1)
+        {
+          var cellText = document.createTextNode(found[i].eruption_category);
+        }
+        else if(j==2)
+        {
+          var cellText = document.createTextNode(found[i].evidence_method_dating);
+        }
+        else if(j==3)
+        {
+          var cellText = document.createTextNode(found[i].area_of_activity);
+        }
+        else
+        {
+          var cellText = document.createTextNode(found[i].vei);
+        }
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+      }
+    }
+
+    // add the row to the end of the table body
+    tblBody.appendChild(row);
+  }
+
+  // put the <tbody> in the <table>
+  tbl.appendChild(tblBody);
+
+  cont.appendChild(tbl);
+
+
+  /*const table = document.getElementById('table');
   
   for (let x in found)
   {
     table.innerHTML = `<tr><th>${found[x].start_year}</th><th>${found[x].vei}</th></tr>`;
-  }
+  }*/
 }
 
 //testing
