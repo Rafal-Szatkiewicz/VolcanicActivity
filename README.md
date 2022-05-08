@@ -1,4 +1,5 @@
 # VolcanicActivity
+<h2><a target='_blank' href='https://rafal-szatkiewicz.github.io/VolcanicActivity/public/index.html'>Website</a></h2>
 <p>The website was created to visualize volcanic activity around the world. The data contains information about volcanoes and eruptions from <span class="underlineClass">11345 BCE to 2020 CE</span></p>
             <h2>Source</h2>
             <ul>
