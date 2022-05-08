@@ -45,11 +45,83 @@ const scatterplot = new MapboxLayer
     radiusMinPixels: 2,
     radiusMaxPixels: 8,
     getPosition: d => (parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal) && toggleScatter == true ? [parseFloat(d.longitude), parseFloat(d.latitude)] : [0,0],
-    getFillColor: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? (parseInt(d.number_of_eruptions) > 20 ? [350, 0, 40, 300] : [255, 160, 0, 150]) : [0,0,0,0],
+    getFillColor: d => parseInt(d.start_year) >=  minVal && parseInt(d.start_year) <= maxVal ? (parseInt(d.number_of_eruptions) > 30 ? [350, 0, 40, 300] : [255, 160, 0, 150]) : [0,0,0,0],
     updateTriggers: 
     {
       getPosition: [minVal, maxVal, toggleScatter],
       getFillColor: [minVal, maxVal]
+    },
+    pickable: true,
+    onHover: ({object, x, y}) => 
+    {
+        const el = document.getElementById('tooltip');
+        if (object) 
+        {
+          const { volcano_name, subregion, number_of_eruptions } = object;
+          el.innerHTML = `<h1>Volcano name: </h1><p>${volcano_name}</p><h1>Subregion: </h1><p>${subregion}</p><h1>Number of eruptions: </h1><p>${number_of_eruptions}</p>`;
+          el.style.display = 'block';
+          el.style.opacity = 0.9;
+          el.style.left = x + 'px';
+          el.style.top = y + 'px';
+        } 
+        else 
+        {
+          el.style.left = '-100%';
+          el.style.opacity = 0.0;
+        }
+    },
+    onClick: ({object, x, y}) => 
+    {
+      const { volcano_name, number_of_eruptions, subregion, country, elevation, primary_volcano_type, last_eruption_year, population_within_5_km, population_within_10_km, population_within_30_km, population_within_100_km, latitude, longitude,volcano_number } = object;
+
+      volInfo[0] = volcano_name;
+      volInfo[1] = subregion;
+      volInfo[2] = country;
+      volInfo[3] = elevation;
+      volInfo[4] = primary_volcano_type;
+      volInfo[5] = number_of_eruptions;
+      volInfo[6] = last_eruption_year;
+      volInfo[7] = population_within_5_km;
+      volInfo[8] = population_within_10_km;
+      volInfo[9] = population_within_30_km;
+      volInfo[10] = population_within_100_km;
+      volInfo[11] = latitude;
+      volInfo[12] = longitude;
+      volInfo[13] = volcano_number;
+
+      found = getEruptions(volInfo[0]);
+      /*for (x in found)
+      {
+        console.log(found[x].start_year);
+      }*/
+
+      cont.innerHTML = `
+      <div id="arrows"><p>scroll</p></div>
+      <h1>${volInfo[0]}</h1>
+      <p><i>${volInfo[1]}</i></p>
+      <br>
+      <p><b>Country: </b>${volInfo[2]}</p>
+      <p><b>Elevation: </b>${volInfo[3]}</p>
+      <p><b>Volcano type: </b>${volInfo[4]}</p>
+      <p><b>Number of eruptions: </b>${volInfo[5]}</p>
+      <p><b>Last eruption <i>(year)</i>: </b>${volInfo[6]}</p>
+      <p><b>Latitude: </b>${volInfo[11]}</p>
+      <p><b>Longitude: </b>${volInfo[12]}</p>
+      <h2>Population</h2>
+      <p><b>within 5km: </b>${volInfo[7]}</p>
+      <p><b>within 10km: </b>${volInfo[8]}</p>
+      <p><b>within 30km: </b>${volInfo[9]}</p>
+      <p><b>within 100km: </b>${volInfo[10]}</p>
+      <br>
+      <h3><a target='_blank' href='https://volcano.si.edu/volcano.cfm?vn=${volInfo[13]}'>More details</a></h3>`;
+
+      if(!detailsToggle)
+      {
+        det.style.transform = 'translate(0,0)';
+        dotL.style.outline = '15px solid #fff';
+        dotL.style.outlineOffset = '0px';
+        detailsToggle = true;
+      }
     }
 });
 
@@ -91,75 +163,6 @@ const hexagon = new MapboxLayer
       getPosition: [minVal, maxVal,toggleHex],
       getColorWeight: [minVal, maxVal],
       getElevationWeight: [minVal, maxVal]
-    },
-    pickable: true,
-    onHover: ({object, x, y}) => 
-    {
-        const el = document.getElementById('tooltip');
-        if (object) 
-        {
-          const { volcano_name, subregion, number_of_eruptions } = object;
-          el.innerHTML = `<h1>Volcano name: </h1><p>${volcano_name}</p><h1>Subregion: </h1><p>${subregion}</p><h1>Number of eruptions: </h1><p>${number_of_eruptions}</p>`;
-          el.style.display = 'block';
-          el.style.opacity = 0.9;
-          el.style.left = x + 'px';
-          el.style.top = y + 'px';
-        } 
-        else 
-        {
-          el.style.left = '-100%';
-          el.style.opacity = 0.0;
-        }
-    },
-    onClick: ({object, x, y}) => 
-    {
-      const { volcano_name, number_of_eruptions, subregion, country, elevation, primary_volcano_type, last_eruption_year, population_within_5_km, population_within_10_km, population_within_30_km, population_within_100_km, latitude, longitude } = object;
-
-      volInfo[0] = volcano_name;
-      volInfo[1] = subregion;
-      volInfo[2] = country;
-      volInfo[3] = elevation;
-      volInfo[4] = primary_volcano_type;
-      volInfo[5] = number_of_eruptions;
-      volInfo[6] = last_eruption_year;
-      volInfo[7] = population_within_5_km;
-      volInfo[8] = population_within_10_km;
-      volInfo[9] = population_within_30_km;
-      volInfo[10] = population_within_100_km;
-      volInfo[11] = latitude;
-      volInfo[12] = longitude;
-
-      found = getEruptions(volInfo[0]);
-      /*for (x in found)
-      {
-        console.log(found[x].start_year);
-      }*/
-
-      cont.innerHTML = `
-      <div id="arrows"><p>scroll</p></div>
-      <h1>${volInfo[0]}</h1>
-      <p><i>${volInfo[1]}</i></p>
-      <br>
-      <p><b>Country: </b>${volInfo[2]}</p>
-      <p><b>Elevation: </b>${volInfo[3]}</p>
-      <p><b>Volcano type: </b>${volInfo[4]}</p>
-      <p><b>Number of eruptions: </b>${volInfo[5]}</p>
-      <p><b>Last eruption <i>(year)</i>: </b>${volInfo[6]}</p>
-      <p><b>Latitude: </b>${volInfo[11]}</p>
-      <p><b>Longitude: </b>${volInfo[12]}</p>
-      <h2>Population</h2>
-      <p><b>within 5km: </b>${volInfo[7]}</p>
-      <p><b>within 10km: </b>${volInfo[8]}</p>
-      <p><b>within 30km: </b>${volInfo[9]}</p>
-      <p><b>within 100km: </b>${volInfo[10]}</p>`;
-
-      if(!detailsToggle)
-      {
-        det.style.transform = 'translate(0,0)';
-        dotL.style.outline = '15px solid #fff';
-        dotL.style.outlineOffset = '0px';
-        detailsToggle = true;
-      }
     }
 });
 
@@ -496,7 +499,7 @@ function infoF()
 {
   if(volInfo[0] == undefined)
   {
-    cont.innerHTML = `<h1>Click on a point on the map for info</h1>`;
+    cont.innerHTML = `<h1>Click on a point on the map with <span id='colorPoints'>Points</span> layer for info</h1>`;
   }
   else
   {
@@ -516,7 +519,9 @@ function infoF()
     <p><b>within 5km: </b>${volInfo[7]}</p>
     <p><b>within 10km: </b>${volInfo[8]}</p>
     <p><b>within 30km: </b>${volInfo[9]}</p>
-    <p><b>within 100km: </b>${volInfo[10]}</p>`;
+    <p><b>within 100km: </b>${volInfo[10]}</p>
+    <br>
+      <h3><a target='_blank' href='https://volcano.si.edu/volcano.cfm?vn=${volInfo[13]}'>More details</a></h3>`;
   }
 }
 function aboutF()
@@ -535,7 +540,7 @@ function eruptionsF()
 {
   if(Object.keys(found).length === 0 && found.constructor === Object)
   {
-    cont.innerHTML = `<h1>Click on a point on the map for info</h1>`;
+    cont.innerHTML = `<h1>Click on a point on the map with <span id='colorPoints'>Points</span> layer for info</h1>`;
   }
   else
   {
@@ -560,25 +565,24 @@ function eruptionsF()
           var cell = document.createElement("th");
           if(j==0)
           {
-            var cellText = document.createTextNode("Year");
+            cell.innerHTML ="Year";
           }
           else if(j==1)
           {
-            var cellText = document.createTextNode("Category");
+            cell.innerHTML ="Category";
           }
           else if(j==2)
           {
-            var cellText = document.createTextNode("Evidence method dating");
+            cell.innerHTML ="Evidence method dating";
           }
           else if(j==3)
           {
-            var cellText = document.createTextNode("Area of activity");
+            cell.innerHTML ="Area of activity";
           }
           else
           {
-            var cellText = document.createTextNode("Vei");
+            cell.innerHTML = "<a target='_blank' href='https://en.wikipedia.org/wiki/Volcanic_Explosivity_Index'>Vei<sup>(?)</sup></a>"
           }
-          cell.appendChild(cellText);
           row.appendChild(cell);
         }
         else

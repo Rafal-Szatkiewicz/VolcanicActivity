@@ -323,3 +323,43 @@ td
 {
   padding: 5px;
 }
+#colorPoints
+{
+  color: #ea3737;
+}
+table a
+{
+  color: #fff;
+}
+#gradientWrapper
+{
+  background-color: white;
+  height: 20px;
+  width: 100px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 50px;
+  border-radius: 10px;
+  outline: #ea3737 3px solid;
+  text-align: center;
+  font-family: arial;
+
+  position: absolute;
+  z-index: 3;
+  left: 180px;
+  bottom: 10px;
+  transition: 0.5s;
+}
+#gradientWrapper:hover
+{
+  opacity: 10%;
+  transition: 0.5s;
+}
+#gradient
+{
+  height: 100%;
+  width: 100%;
+  background: rgb(255,160,0);
+  background: linear-gradient(90deg, rgba(255,160,0,1) 44%, rgba(255,0,40,1) 100%); 
+}
