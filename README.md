@@ -7,5 +7,5 @@
               <li><a target="_blank" href="https://www.mapbox.com">Map</a></li>
             </ul>
 <h3>Notes</h3>
-<p>Tooltip and info works only if you hover/click on the point with <b>Points</b> button active</p>.
-<p>Website <b>doesn't</b> work properly on mobile devices</p>.
+<p>Tooltip and info works only if you hover/click on the point with <b>Points</b> button active.</p>
+<p>Website <b>doesn't</b> work properly on mobile devices.</p>
