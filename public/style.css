@@ -330,6 +330,7 @@ td
 table a
 {
   color: #fff;
+  cursor: help;
 }
 #gradientWrapper
 {
